@@ -99,6 +99,7 @@ app.route('/api/webinar')
         console.error(err)
     }
 })
+app.route('/api/webinar/update')
 .put(async (req, res) => {
     const dateTime = `${req.body.date}`
     res.send(dateTime)
