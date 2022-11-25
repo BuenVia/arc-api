@@ -22,8 +22,38 @@ const downloadSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-
 const Download = mongoose.model('Download', downloadSchema)
+
+const webinarSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        // required: true
+    },
+    time: {
+        type: String,
+        // required: true
+    },
+    link: {
+        type: String,
+        // required: true
+    },
+    summary: {
+        type: String,
+    },
+    attendees: {
+        type: String,
+    },
+    lastUpdated: {
+        type: Date,
+        default: Date.now
+    }
+})
+
+const Webinar = mongoose.model('Webinar', webinarSchema)
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
@@ -57,6 +87,30 @@ app.route('/api/resource')
     })
     const saveDownload = await newDownload.save()
     res.send(req.body)
+})
+
+// Webinar
+app.route('/api/webinar')
+.get(async (req, res) => {
+    try {
+        const webinar = await Webinar.find()
+        res.send(webinar)
+    } catch (err) {
+        console.error(err)
+    }
+})
+.put(async (req, res) => {
+    const dateTime = `${req.body.date}`
+    res.send(dateTime)
+    // try {
+    //     const webinar = await Webinar.updateOne({ _id: req.body.id }, { 
+    //         title: req.body.title,
+    //         date:  
+    //     })
+    //     res.send(req.body)
+    // } catch (err) {
+    //     res.send(err)    
+    // }
 })
 
 app.listen(port, () => {
