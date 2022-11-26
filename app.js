@@ -31,21 +31,19 @@ const webinarSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        // required: true
+        required: true
     },
     time: {
         type: String,
-        // required: true
+        required: true
     },
     link: {
         type: String,
-        // required: true
+        required: true
     },
-    summary: {
-        type: String,
-    },
-    attendees: {
-        type: String,
+    show: {
+        type: Boolean,
+        default: true
     },
     lastUpdated: {
         type: Date,
@@ -60,10 +58,10 @@ app.use(express.json())
 // Add Access Control Allow Origin headers
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    res.header({
+        "Access-Control-Allow-Headers" : "Origin, X-Requested-With, Content-Type, Accept",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT"
+    });
     next();
   });
 
@@ -99,19 +97,25 @@ app.route('/api/webinar')
         console.error(err)
     }
 })
+.post(async (req, res) => {
+    const newWebinar = new Webinar({
+        title: req.body.title,
+        date: req.body.date,
+        time: req.body.time,
+        link: req.body.link,
+    })
+    const saveWebinar = await newWebinar.save()
+    res.send(`Success:\n${newWebinar}`)
+})
+
 app.route('/api/webinar/update')
 .put(async (req, res) => {
-    const dateTime = `${req.body.date}`
-    res.send(dateTime)
-    // try {
-    //     const webinar = await Webinar.updateOne({ _id: req.body.id }, { 
-    //         title: req.body.title,
-    //         date:  
-    //     })
-    //     res.send(req.body)
-    // } catch (err) {
-    //     res.send(err)    
-    // }
+    try {
+        const webinar = await Webinar.updateOne({ _id: req.body._id }, { $set: req.body })
+        res.send(req.body)
+    } catch (err) {
+        res.send(err)    
+    }
 })
 
 app.listen(port, () => {
