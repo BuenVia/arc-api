@@ -3,7 +3,7 @@ const router = express.Router()
 
 const Download = require('../models/downloadSchema')
 
-router.route('/api/resource')
+router.route('/api/downloads')
 .get(async (req, res) => {
     const download = await Download.find()
     try {

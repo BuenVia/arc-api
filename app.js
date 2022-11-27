@@ -25,11 +25,11 @@ app.use((req, res, next) => {
 
 // Index
 app.get('/', (req, res) => {
-    res.send('Hello World')
+    res.send('ARC Support Services API')
 })
 
 // Resource downloads
-app.route('/api/resource')
+app.route('/api/downloads')
 .get(downloadSchema)
 .post(downloadSchema)
 
