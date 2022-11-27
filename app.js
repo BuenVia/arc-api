@@ -8,50 +8,9 @@ let port = 9000
 
 mongoose.connect(process.env.MONGO_DB).then(console.log('Connected to ARC DB')).catch(err => console.error(err))
 
-const downloadSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
-})
-const Download = mongoose.model('Download', downloadSchema)
 
-const webinarSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    time: {
-        type: String,
-        required: true
-    },
-    link: {
-        type: String,
-        required: true
-    },
-    show: {
-        type: Boolean,
-        default: true
-    },
-    lastUpdated: {
-        type: Date,
-        default: Date.now
-    }
-})
-
-const Webinar = mongoose.model('Webinar', webinarSchema)
+const Download = require('./models/downloadSchema')
+const Webinar = require('./models/webinarSchema')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
