@@ -12,6 +12,8 @@ mongoose.connect(process.env.MONGO_DB).then(console.log('Connected to ARC DB')).
 const Download = require('./models/downloadSchema')
 const Webinar = require('./models/webinarSchema')
 
+const webinarRouter = require('./routes/webinarRouter')
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 // Add Access Control Allow Origin headers
@@ -48,34 +50,11 @@ app.route('/api/resource')
 
 // Webinar
 app.route('/api/webinar')
-.get(async (req, res) => {
-    try {
-        const webinar = await Webinar.find()
-        res.send(webinar)
-    } catch (err) {
-        console.error(err)
-    }
-})
-.post(async (req, res) => {
-    const newWebinar = new Webinar({
-        title: req.body.title,
-        date: req.body.date,
-        time: req.body.time,
-        link: req.body.link,
-    })
-    const saveWebinar = await newWebinar.save()
-    res.send(`Success:\n${newWebinar}`)
-})
+.get(webinarRouter)
+.post(webinarRouter)
 
 app.route('/api/webinar/update')
-.put(async (req, res) => {
-    try {
-        const webinar = await Webinar.updateOne({ _id: req.body._id }, { $set: req.body })
-        res.send(req.body)
-    } catch (err) {
-        res.send(err)    
-    }
-})
+.put(webinarRouter)
 
 app.listen(port, () => {
     console.log(`App running on port: ${port}`)
