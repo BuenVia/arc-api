@@ -10,7 +10,6 @@ mongoose.connect(process.env.MONGO_DB).then(console.log('Connected to ARC DB')).
 
 
 const Download = require('./models/downloadSchema')
-const Webinar = require('./models/webinarSchema')
 
 const webinarRouter = require('./routes/webinarRouter')
 

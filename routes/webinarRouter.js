@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const Webinar = require('../models/webinarSchema')
+
 router.route('/api/webinar')
 .get(async (req, res) => {
     try {
